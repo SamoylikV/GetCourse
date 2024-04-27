@@ -15,7 +15,6 @@
         </form>
         {% if request.user.user_type == 1 %}
             <a href="{% url 'teacher_dashboard' %}">Личный кабинет преподавателя</a>
-            <a href="{% url 'create_course' %}">Создать курс</a>
         {% elif request.user.user_type == 2 %}
             <a href="{% url 'student_dashboard' %}">Личный кабинет ученика</a>
         {% endif %}
@@ -24,9 +23,16 @@
 <h1>Курсы</h1>
 <ul>
     {% for course in courses %}
-        <li>{{ course.title }} - {{ course.description }}</li>
-        {% empty %}
-        <li>Нет доступных курсов.</li>
+        <li>{{ course.title }} - {{ course.description }}
+            {% if request.user.is_authenticated and request.user.user_type == 2 %}
+                <form action="{% url 'enroll_course' course.id %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit">Записаться на курс</button>
+                </form>
+            {% endif %}
+        </li>
+    {% empty %}
+    <li>Нет доступных курсов.</li>
     {% endfor %}
 </ul>
 </body>

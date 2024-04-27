@@ -28,7 +28,7 @@ def register(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
-            return redirect('courses')
+            return redirect('/')
     else:
         form = CustomUserCreationForm()
     return render(request, 'accounts/register.html', {'form': form})
@@ -37,12 +37,12 @@ def register(request):
 @login_required
 def student_dashboard(request):
     if request.user.user_type != 2:
-        return redirect('home')
-    return render(request, 'student_dashboard.html')
+        return redirect('/')
+    return render(request, 'dashboards/student_dashboard.html ')
 
 
 @login_required
 def teacher_dashboard(request):
     if request.user.user_type != 1:
-        return redirect('home')
-    return render(request, 'teacher_dashboard.html')
+        return redirect('/')
+    return render(request, 'dashboards/teacher_dashboard.html')

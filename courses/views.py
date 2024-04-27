@@ -1,7 +1,7 @@
-from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from .forms import CourseForm
-from .models import Course
+from django.shortcuts import redirect, render, get_object_or_404
+from .models import Course, Enrollment
 
 
 @login_required
@@ -24,3 +24,9 @@ def create_course(request):
 def course_list(request):
     courses = Course.objects.filter(available=True)
     return render(request, 'courses/course_list.html', {'courses': courses})
+
+
+def enroll_course(request, course_id):
+    course = get_object_or_404(Course, id=course_id, available=True)
+    Enrollment.objects.get_or_create(student=request.user, course=course)
+    return redirect('student_dashboard')
