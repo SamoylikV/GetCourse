@@ -6,6 +6,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView
 from .forms import CustomAuthenticationForm
 from django.urls import reverse_lazy
+from .models import CustomUser
+from courses.models import Enrollment
 
 
 class CustomLoginView(LoginView):
@@ -37,8 +39,10 @@ def register(request):
 @login_required
 def student_dashboard(request):
     if request.user.user_type != 2:
-        return redirect('/')
-    return render(request, 'dashboards/student_dashboard.html ')
+        return redirect('home')
+    enrollments = Enrollment.objects.filter(student=request.user)
+    courses = [enrollment.course for enrollment in enrollments]
+    return render(request, 'dashboards/student_dashboard.html ', {'courses': courses})
 
 
 @login_required
@@ -46,3 +50,6 @@ def teacher_dashboard(request):
     if request.user.user_type != 1:
         return redirect('/')
     return render(request, 'dashboards/teacher_dashboard.html')
+
+
+

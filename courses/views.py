@@ -29,4 +29,4 @@ def course_list(request):
 def enroll_course(request, course_id):
     course = get_object_or_404(Course, id=course_id, available=True)
     Enrollment.objects.get_or_create(student=request.user, course=course)
-    return redirect('student_dashboard')
+    return redirect('/')

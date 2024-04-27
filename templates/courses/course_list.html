@@ -25,10 +25,14 @@
     {% for course in courses %}
         <li>{{ course.title }} - {{ course.description }}
             {% if request.user.is_authenticated and request.user.user_type == 2 %}
-                <form action="{% url 'enroll_course' course.id %}" method="post">
-                    {% csrf_token %}
-                    <button type="submit">Записаться на курс</button>
-                </form>
+                {% if course in enrolled_courses %}
+                    <span>Записан</span>
+                {% else %}
+                    <form action="{% url 'enroll_course' course.id %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit">Записаться на курс</button>
+                    </form>
+                {% endif %}
             {% endif %}
         </li>
     {% empty %}
