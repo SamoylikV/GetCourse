@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Личный кабинет ученика</title>
+</head>
+<body>
+    <h1>Добро пожаловать, {{ request.user.username }}!</h1>
+    <p>Здесь информация для ученика.</p>
+</body>
+</html>

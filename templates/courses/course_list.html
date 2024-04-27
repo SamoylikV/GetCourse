@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Список курсов</title>
+</head>
+<body>
+<header>
+    {% if not request.user.is_authenticated %}
+        <a href="{% url 'login' %}">Вход</a>
+        <a href="{% url 'register' %}">Регистрация</a>
+    {% else %}
+        <a href="#" onclick="document.getElementById('logout-form').submit(); return false;">Выход</a>
+        <form id="logout-form" action="{% url 'logout' %}" method="post" style="display:none;">
+            {% csrf_token %}
+        </form>
+        {% if request.user.user_type == 1 %}
+            <a href="{% url 'teacher_dashboard' %}">Личный кабинет преподавателя</a>
+            <a href="{% url 'create_course' %}">Создать курс</a>
+        {% elif request.user.user_type == 2 %}
+            <a href="{% url 'student_dashboard' %}">Личный кабинет ученика</a>
+        {% endif %}
+    {% endif %}
+</header>
+<h1>Курсы</h1>
+<ul>
+    {% for course in courses %}
+        <li>{{ course.title }} - {{ course.description }}</li>
+        {% empty %}
+        <li>Нет доступных курсов.</li>
+    {% endfor %}
+</ul>
+</body>
+</html>
