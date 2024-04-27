@@ -51,5 +51,13 @@ def teacher_dashboard(request):
         return redirect('/')
     return render(request, 'dashboards/teacher_dashboard.html')
 
+def teachers_table(request):
+    return render(request,'community/teachers_table.html')
+
+def teacher_profile(request):
+    return render(request,'profiles/teacher_profile.html')
+
+
+
 
 
