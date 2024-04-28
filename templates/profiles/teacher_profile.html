@@ -9,8 +9,16 @@
     <p>First Name: {{ profile.first_name }}</p>
     <p>Last Name: {{ profile.last_name }}</p>
     <p>Description: {{ profile.description }}</p>
-    <img src="{{ profile.avatar.url }}" alt="Avatar" width="100">
-    <a href="{{ profile.pdf_file.url }}">Download PDF</a>
+    {% if profile.avatar and profile.avatar.url %}
+        <img src="{{ profile.avatar.url }}" alt="Avatar" width="100">
+    {% else %}
+        <p>No avatar available.</p>
+    {% endif %}
+    {% if profile.pdf_file and profile.pdf_file.url %}
+        <a href="{{ profile.pdf_file.url }}">Download PDF</a>
+    {% else %}
+        <p>No PDF file uploaded.</p>
+    {% endif %}
     <br>
     <a href="{% url 'edit_profile' %}">Edit Profile</a>
 </body>
