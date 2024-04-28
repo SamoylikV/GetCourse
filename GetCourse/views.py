@@ -41,7 +41,7 @@ def student_dashboard(request):
         return redirect('home')
     enrollments = Enrollment.objects.filter(student=request.user)
     courses = [enrollment.course for enrollment in enrollments]
-    return render(request, 'dashboards/student_dashboard.html ', {'courses': courses})
+    return render(request, 'dashboards/student_dashboard.html', {'courses': courses})
 
 
 @login_required

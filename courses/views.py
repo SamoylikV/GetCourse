@@ -1,24 +1,35 @@
 from django.contrib.auth.decorators import login_required
-from .forms import CourseForm
 from django.shortcuts import redirect, render, get_object_or_404
-from .models import Course, Enrollment
+from .models import Course, Enrollment, PDFFile
+from .forms import CourseForm, PDFFileForm
+from django.forms import modelformset_factory
 
 
 @login_required
 def create_course(request):
-    if request.user.user_type != 1:
-        return redirect('home')
-
+    PDFFileFormSet = modelformset_factory(PDFFile, form=PDFFileForm, extra=1)
     if request.method == 'POST':
         form = CourseForm(request.POST)
-        if form.is_valid():
-            course = form.save(commit=False)
+        formset = PDFFileFormSet(request.POST, request.FILES, queryset=PDFFile.objects.none())
+        if form.is_valid() and formset.is_valid():
+            course = form.save()
+            for form in formset.cleaned_data:
+                if form:
+                    pdf = form['file']
+                    pdf_file = PDFFile(file=pdf)
+                    pdf_file.save()
+                    course.pdf_files.add(pdf_file)
             course.save()
-            return redirect('course_list')
+            return redirect('course_detail', pk=course.pk)
     else:
         form = CourseForm()
+        formset = PDFFileFormSet(queryset=PDFFile.objects.none())
+    return render(request, 'courses/create_course.html', {'form': form, 'formset': formset})
 
-    return render(request, 'courses/create_course.html', {'form': form})
+
+def course_detail(request, pk):
+    course = Course.objects.get(pk=pk)
+    return render(request, 'courses/course_detail.html', {'course': course})
 
 
 def course_list(request):

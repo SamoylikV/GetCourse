@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Course Details</title>
+</head>
+<body>
+    <h1>{{ course.title }}</h1>
+    <p><strong>Description:</strong> {{ course.description }}</p>
+    <p><strong>Max Participants:</strong> {{ course.max_participants }}</p>
+    <h2>PDF Files</h2>
+    <ul>
+        {% for pdf in course.pdf_files.all %}
+            <li><a href="{{ pdf.file.url }}">{{ pdf.file.name }}</a></li>
+        {% empty %}
+            <li>No PDF files available.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

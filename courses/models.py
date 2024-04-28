@@ -3,12 +3,21 @@ from django.conf import settings
 
 
 class Course(models.Model):
-    title = models.CharField(max_length=200)
+    title = models.CharField(max_length=255)
     description = models.TextField()
+    max_participants = models.PositiveIntegerField()
     available = models.BooleanField(default=True)
+    pdf_files = models.ManyToManyField('PDFFile', blank=True)
 
     def __str__(self):
         return self.title
+
+
+class PDFFile(models.Model):
+    file = models.FileField(upload_to='course_pdfs/')
+
+    def __str__(self):
+        return self.file.name
 
 
 class Enrollment(models.Model):
@@ -21,5 +30,3 @@ class Enrollment(models.Model):
 
     def __str__(self):
         return f'{self.student.username} -> {self.course.title}'
-
-

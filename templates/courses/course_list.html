@@ -24,7 +24,8 @@
 <h1>Курсы</h1>
 <ul>
     {% for course in courses %}
-        <li>{{ course.title }} - {{ course.description }}
+        <li>
+            <a href="{% url 'course_detail' course.id %}">{{ course.title }}</a> - {{ course.description }}
             {% if request.user.is_authenticated and request.user.user_type == 2 %}
                 {% if course in enrolled_courses %}
                     <span>Записан</span>
@@ -37,7 +38,7 @@
             {% endif %}
         </li>
     {% empty %}
-    <li>Нет доступных курсов.</li>
+        <li>Нет доступных курсов.</li>
     {% endfor %}
 </ul>
 </body>

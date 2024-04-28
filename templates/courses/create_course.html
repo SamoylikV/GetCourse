@@ -1,14 +1,22 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Создать курс</title>
+    <meta charset="UTF-8">
+    <title>Create Course</title>
 </head>
 <body>
-    <h1>Создать новый курс</h1>
-    <form method="post">
+    <h1>Create a New Course</h1>
+    <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">Сохранить курс</button>
+        <h2>Add PDF Files</h2>
+        {{ formset.management_form }}
+        {% for form in formset %}
+            <div>
+                {{ form.as_p }}
+            </div>
+        {% endfor %}
+        <button type="submit">Create Course</button>
     </form>
 </body>
 </html>
