@@ -2,13 +2,16 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Teacher Profile</title>
 </head>
 <body>
-
+    <h1>Teacher Profile</h1>
+    <p>First Name: {{ profile.first_name }}</p>
+    <p>Last Name: {{ profile.last_name }}</p>
+    <p>Description: {{ profile.description }}</p>
+    <img src="{{ profile.avatar.url }}" alt="Avatar" width="100">
+    <a href="{{ profile.pdf_file.url }}">Download PDF</a>
+    <br>
+    <a href="{% url 'edit_profile' %}">Edit Profile</a>
 </body>
 </html>
-
-<!--сделать бд для профиля и здесь добавить поля.
-Поля которые есть в бд логина импортировать, остальные создать и использовать 
-в таблице учителей-->

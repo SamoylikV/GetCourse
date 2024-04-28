@@ -1,7 +1,8 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from .models import CustomUser
+from .models import CustomUser, TeacherProfile
 from django.contrib.auth.forms import AuthenticationForm
+
 
 
 class CustomUserCreationForm(UserCreationForm):
@@ -15,4 +16,7 @@ class CustomAuthenticationForm(AuthenticationForm):
     password = forms.CharField(label="Пароль", widget=forms.PasswordInput(attrs={'class': 'form-control'}))
 
 
-'''Создать форму для личных кабинетов учителей, в частности с данными о фото, описание.'''
+class TeacherProfileForm(forms.ModelForm):
+    class Meta:
+        model = TeacherProfile
+        fields = ['first_name', 'last_name', 'description', 'avatar', 'pdf_file']
