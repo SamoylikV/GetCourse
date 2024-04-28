@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.urls import path, include
 from .views import student_dashboard, teacher_dashboard, register, CustomLoginView, edit_teacher_profile, \
-    view_teacher_profile
+    view_teacher_profile, list_teachers
 from django.views.generic import RedirectView
 from django.contrib.auth.views import LogoutView
 
@@ -13,7 +13,10 @@ urlpatterns = [
     path('student-dashboard/', student_dashboard, name='student_dashboard'),
     path('teacher-dashboard/', teacher_dashboard, name='teacher_dashboard'),
     path('edit-profile/', edit_teacher_profile, name='edit_profile'),
-    path('profile/', view_teacher_profile, name='profile_view'),
+    # path('profile/', view_teacher_profile, name='profile_view'),
+    path('profile/', view_teacher_profile, name='profile_view'),  # Просмотр профиля текущего пользователя
+    path('profile/<int:user_id>/', view_teacher_profile, name='profile_view'),  # Просмотр профиля по ID
+    path('profiles/', list_teachers, name='teachers_list'),
     path('', include('courses.urls')),
     path('courses/', include('courses.urls')),
     path('', RedirectView.as_view(url='/courses/', permanent=True)),

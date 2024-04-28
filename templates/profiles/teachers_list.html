@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>List of Teachers</title>
+</head>
+<body>
+    <h1>List of Teachers</h1>
+    <ul>
+        {% for teacher in teachers %}
+        <li>
+            <a href="{% url 'profile_view' user_id=teacher.user.id %}">{{ teacher.user.username }}</a>
+            - {{ teacher.description }}
+        </li>
+        {% empty %}
+        <li>No teachers found.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

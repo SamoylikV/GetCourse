@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
@@ -7,6 +7,7 @@ from .forms import CustomUserCreationForm, CustomAuthenticationForm, TeacherProf
 from django.urls import reverse_lazy
 from courses.models import Enrollment
 from .models import TeacherProfile
+
 
 class CustomLoginView(LoginView):
     authentication_form = CustomAuthenticationForm
@@ -54,16 +55,21 @@ def teachers_table(request):
     return render(request, 'community/teachers_table.html')
 
 
-# def teacher_profile(request):
-#     return render(request, 'profiles/teacher_profile.html')
+# @login_required
+# def view_teacher_profile(request):
+#     try:
+#         profile = request.user.teacher_profile
+#     except request.user._meta.model.teacher_profile.RelatedObjectDoesNotExist:
+#         return redirect('edit_profile')
+#     return render(request, 'profiles/teacher_profile.html', {'profile': profile})
 
 
 @login_required
-def view_teacher_profile(request):
-    try:
-        profile = request.user.teacher_profile
-    except request.user._meta.model.teacher_profile.RelatedObjectDoesNotExist:
-        return redirect('edit_profile')
+def view_teacher_profile(request, user_id=None):
+    if user_id is None:
+        user_id = request.user.id
+    profile = get_object_or_404(TeacherProfile, user__id=user_id)
+
     return render(request, 'profiles/teacher_profile.html', {'profile': profile})
 
 
@@ -79,3 +85,8 @@ def edit_teacher_profile(request):
         form = TeacherProfileForm(instance=profile)
 
     return render(request, 'profiles/edit_teacher_profile.html', {'form': form})
+
+
+def list_teachers(request):
+    teachers = TeacherProfile.objects.filter(user__user_type=1)
+    return render(request, 'profiles/teachers_list.html', {'teachers': teachers})
