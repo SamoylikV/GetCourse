@@ -7,11 +7,17 @@
 <h1>Добро пожаловать, {{ request.user.username }}!</h1>
 <a href="{% url 'course_list' %}">
     <button>На главную</button>
+    <a href="{% url 'student_profile' %}">
+        <button>Мой профиль</button>
+    </a>
+    <a href="{% url 'edit_student_profile' %}">
+        <button>Редактировать профиль</button>
+    </a>
 </a>
 <ul>
     {% for course in courses %}
         <li>{{ course.title }}</li>
-        {% empty %}
+    {% empty %}
         <li>Вы еще не записаны ни на один курс.</li>
     {% endfor %}
 </ul>

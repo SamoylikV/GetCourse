@@ -3,10 +3,10 @@ from django.contrib.auth import login
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView
-from .forms import CustomUserCreationForm, CustomAuthenticationForm, TeacherProfileForm
+from .forms import CustomUserCreationForm, CustomAuthenticationForm, TeacherProfileForm, StudentProfileForm
 from django.urls import reverse_lazy
 from courses.models import Enrollment
-from .models import TeacherProfile
+from .models import TeacherProfile, StudentProfile
 
 
 class CustomLoginView(LoginView):
@@ -55,15 +55,6 @@ def teachers_table(request):
     return render(request, 'community/teachers_table.html')
 
 
-# @login_required
-# def view_teacher_profile(request):
-#     try:
-#         profile = request.user.teacher_profile
-#     except request.user._meta.model.teacher_profile.RelatedObjectDoesNotExist:
-#         return redirect('edit_profile')
-#     return render(request, 'profiles/teacher_profile.html', {'profile': profile})
-
-
 @login_required
 def view_teacher_profile(request, user_id=None):
     if user_id is None:
@@ -90,3 +81,26 @@ def edit_teacher_profile(request):
 def list_teachers(request):
     teachers = TeacherProfile.objects.filter(user__user_type=1)
     return render(request, 'profiles/teachers_list.html', {'teachers': teachers})
+
+
+@login_required
+def view_student_profile(request, user_id=None):
+    if user_id is None:
+        user_id = request.user.id
+    profile = get_object_or_404(StudentProfile, user__id=user_id)
+
+    return render(request, 'profiles/student_profile.html', {'profile': profile})
+
+
+@login_required
+def edit_student_profile(request):
+    profile, created = StudentProfile.objects.get_or_create(user=request.user)
+    if request.method == 'POST':
+        form = StudentProfileForm(request.POST, request.FILES, instance=profile)
+        if form.is_valid():
+            form.save()
+            return redirect('profile_view')
+    else:
+        form = StudentProfileForm(instance=profile)
+
+    return render(request, 'profiles/edit_student_profile.html', {'form': form})

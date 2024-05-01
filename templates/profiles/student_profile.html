@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Teacher Profile</title>
+</head>
+<body>
+    <h1>Teacher Profile</h1>
+    <p>First Name: {{ profile.first_name }}</p>
+    <p>Last Name: {{ profile.last_name }}</p>
+    <p>Description: {{ profile.description }}</p>
+    <p>Interests: {{ profile.interests }}</p>
+    {% if profile.avatar and profile.avatar.url %}
+        <img src="{{ profile.avatar.url }}" alt="Avatar" width="100">
+    {% else %}
+        <p>No avatar available.</p>
+    {% endif %}
+    <br>
+    <a href="{% url 'edit_profile' %}">Edit Profile</a>
+</body>
+</html>

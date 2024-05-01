@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+from taggit.managers import TaggableManager
 
 
 class Course(models.Model):

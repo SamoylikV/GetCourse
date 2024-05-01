@@ -1,8 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from .models import CustomUser, TeacherProfile
+from .models import CustomUser, TeacherProfile, StudentProfile
 from django.contrib.auth.forms import AuthenticationForm
-
 
 
 class CustomUserCreationForm(UserCreationForm):
@@ -20,3 +19,9 @@ class TeacherProfileForm(forms.ModelForm):
     class Meta:
         model = TeacherProfile
         fields = ['first_name', 'last_name', 'description', 'avatar', 'pdf_file']
+
+
+class StudentProfileForm(forms.ModelForm):
+    class Meta:
+        model = StudentProfile
+        fields = ['first_name', 'last_name', 'description', 'avatar', 'interests']
