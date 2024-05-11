@@ -9,6 +9,7 @@ class Course(models.Model):
     max_participants = models.PositiveIntegerField()
     available = models.BooleanField(default=True)
     pdf_files = models.ManyToManyField('PDFFile', blank=True)
+    tag = models.CharField(max_length=20)
 
     def __str__(self):
         return self.title

@@ -41,3 +41,8 @@ def enroll_course(request, course_id):
     course = get_object_or_404(Course, id=course_id, available=True)
     Enrollment.objects.get_or_create(student=request.user, course=course)
     return redirect('/')
+
+
+def courses_with_tag(tag):
+    courses = Course.objects.filter(tag=tag)
+    return redirect('courses/course_list', {'courses': courses})
