@@ -21,7 +21,7 @@ jobs:
         script: |
           cd /root/projects/GetCourse
           git pull
-          source venv/bin/activate
+          sourse .venv/bin/activate
           pip install -r requirements.txt
           ./manage.py makemigrations
           ./manage.py migrate
