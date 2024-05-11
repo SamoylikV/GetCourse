@@ -3,12 +3,6 @@ from django.db import models
 from django.contrib.auth import get_user_model
 
 
-class CustomUser(AbstractUser):
-    USER_TYPE_CHOICES = (
-        (1, 'teacher'),
-        (2, 'student'),
-    )
-    user_type = models.PositiveSmallIntegerField(choices=USER_TYPE_CHOICES)
 
 
 class TeacherProfile(models.Model):
@@ -33,3 +27,13 @@ class StudentProfile(models.Model):
 
     def __str__(self):
         return self.user.username
+
+
+class CustomUser(AbstractUser):
+    USER_TYPE_CHOICES = (
+        (1, 'teacher'),
+        (2, 'student'),
+    )
+    user_type = models.PositiveSmallIntegerField(choices=USER_TYPE_CHOICES)
+    teacherprofile = models.OneToOneField(TeacherProfile, on_delete=models.CASCADE, related_name='user', null=True)
+    studentprofile = models.OneToOneField(StudentProfile, on_delete=models.CASCADE, related_name='user', null=True)
