@@ -2,14 +2,12 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.contrib.auth import get_user_model
 
-
 class CustomUser(AbstractUser):
     USER_TYPE_CHOICES = (
         (1, 'teacher'),
         (2, 'student'),
     )
     user_type = models.PositiveSmallIntegerField(choices=USER_TYPE_CHOICES)
-
 
 class TeacherProfile(models.Model):
     user = models.OneToOneField(get_user_model(), on_delete=models.CASCADE, related_name='teacher_profile')
@@ -33,3 +31,6 @@ class StudentProfile(models.Model):
 
     def __str__(self):
         return self.user.username
+
+
+

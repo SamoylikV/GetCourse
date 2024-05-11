@@ -13,7 +13,7 @@ def create_teacher_profile(sender, instance, created, **kwargs):
 @receiver(post_save, sender=get_user_model())
 def save_teacher_profile(sender, instance, **kwargs):
     if instance.user_type == 1:
-        instance.teacherprofile.save()
+        instance.teacher_profile.save()
 
 
 @receiver(post_save, sender=get_user_model())
@@ -25,4 +25,4 @@ def create_student_profile(sender, instance, created, **kwargs):
 @receiver(post_save, sender=get_user_model())
 def save_student_profile(sender, instance, **kwargs):
     if instance.user_type == 2:
-        instance.studentprofile.save()
+        instance.student_profile.save()
