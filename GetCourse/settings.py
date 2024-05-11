@@ -38,8 +38,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'courses.apps.CoursesConfig',
+    # нужно добавить taggit
+    'taggit',
+    # 'taggit',
     'GetCourse',
-    "courses.apps.CoursesConfig"
 ]
 
 MIDDLEWARE = [
